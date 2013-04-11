@@ -3,6 +3,7 @@
 #Used to fix puppet issues with certs, etc.
 #Lets cross some fingers and hope this works :)
 
+puppetMaster="puppetmaster01"
 domain="subdomain.domain.tld"
 
 HOST=$1
@@ -58,9 +59,9 @@ echo "Running puppetca --clean for $HOST"
 
 #prepare keys and sign them
 #configuring client and signing ssl"
-ssh -o StrictHostKeyChecking=no $HOST puppetd --no-daemonize --test --server bil1-ops01.$domain
+ssh -o StrictHostKeyChecking=no $HOST puppetd --no-daemonize --test --server $puppetMaster.$domain
 /usr/sbin/puppetca --sign $HOST.$domain
-ssh -o StrictHostKeyChecking=no $HOST puppetd --no-daemonize --test --server bil1-ops01.$domain
+ssh -o StrictHostKeyChecking=no $HOST puppetd --no-daemonize --test --server $puppetMaster.$domain
 
 #restart puppet, this tends to be needed...
 echo "Restarting puppet"
